@@ -1352,9 +1352,20 @@ function CustomerSheet({
                     />
                   </div>
 
-                  {/* رقم طلب سيبل + نوع الطلب (قابلين للتعديل) */}
+                  {/* رقم طلب سيبل + نوع الطلب + الوصف (مرتبطة: تظهر وتختفي معاً) */}
+                  {(() => {
+                    const reqTypeVal =
+                      isOn("طلب اعفاء") || hasExemptionFromBase
+                        ? "إعفاء"
+                        : isOn("طلب جدولة") || hasRescheduleFromBase
+                          ? "جدولة"
+                          : "";
+                    const descVal = get("الوصف") ?? "";
+                    const anyFilled = !!sibylVal || !!reqTypeVal || !!descVal;
+                    if (!anyFilled) return null;
+                    return (
                   <div className="rounded-xl border border-[#e8e6e1] bg-white p-2">
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-3 gap-2">
                       <EditField label="رقم طلب سيبل" icon={<FileText className="size-3" />}>
                         <Input
                           type="text"
@@ -1370,13 +1381,7 @@ function CustomerSheet({
                       </EditField>
                       <EditField label="نوع الطلب" icon={<FileText className="size-3" />}>
                         <Select
-                          value={
-                            isOn("طلب اعفاء") || hasExemptionFromBase
-                              ? "إعفاء"
-                              : isOn("طلب جدولة") || hasRescheduleFromBase
-                                ? "جدولة"
-                                : ""
-                          }
+                          value={reqTypeVal}
                           onValueChange={(v) => {
                             if (v === "إعفاء") {
                               setEdit({
@@ -1402,8 +1407,19 @@ function CustomerSheet({
                           </SelectContent>
                         </Select>
                       </EditField>
+                      <EditField label="الوصف" icon={<FileText className="size-3" />}>
+                        <Input
+                          type="text"
+                          value={descVal}
+                          onChange={(ev) => setEdit({ "الوصف": ev.target.value })}
+                          className={inputCls}
+                        />
+                      </EditField>
                     </div>
                   </div>
+                    );
+                  })()}
+
 
                   {/* الصف: عمر الدين | JWO_DT | تاريخ التجميد */}
                   <div className="grid grid-cols-3 gap-2">
