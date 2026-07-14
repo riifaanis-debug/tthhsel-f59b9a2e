@@ -42,7 +42,10 @@ export type QuickKey =
   | "pf"
   | "salary"
   | "deceased"
-  | "sibel";
+  | "sibel"
+  | "rf";
+
+const RF_ALLOWED_EMPLOYEE_IDS = new Set(["973214"]);
 
 export function CollectorDashboard({
   collected,
