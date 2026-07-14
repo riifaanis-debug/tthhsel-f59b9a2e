@@ -134,6 +134,7 @@ export default function AdminDashboard() {
         {tab === "collectors" && <CollectorsDataPanel />}
         {tab === "permissions" && <PermissionsPanel />}
         {tab === "backups" && <BackupsPanel />}
+        {tab === "rf-wallet" && <RfWalletUploadPanel />}
       </main>
     </div>
   );
