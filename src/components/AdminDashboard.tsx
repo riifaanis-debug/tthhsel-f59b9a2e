@@ -106,6 +106,7 @@ export default function AdminDashboard() {
               {tab === "collectors" && "بيانات المحصلين"}
               {tab === "permissions" && "صلاحيات المحصلين"}
               {tab === "backups" && "النسخ الاحتياطية للمحافظ"}
+              {tab === "rf-wallet" && "إضافة محفظة عملاء العقار (RF)"}
             </p>
           </div>
           <Button
