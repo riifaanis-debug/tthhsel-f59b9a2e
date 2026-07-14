@@ -161,6 +161,7 @@ export function QuickActionsHub({
         mailUnread={mailUnread}
         badges={badges}
         groupEnabled={groupEnabled}
+        employeeId={employeeId}
         onSelectAction={(k) => {
           if (k === "group" && !groupEnabled) {
             toast.error("لم تتم إضافتك إلى القروب بعد. يرجى مراجعة الإدارة.");
@@ -168,6 +169,10 @@ export function QuickActionsHub({
           }
           if (k === "mail") {
             navigate({ to: "/mail" });
+            return;
+          }
+          if (k === "rf") {
+            navigate({ to: "/rf-wallet" });
             return;
           }
           if (k === "wallet") {
