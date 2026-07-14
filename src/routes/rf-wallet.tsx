@@ -205,7 +205,7 @@ function RfWalletPage() {
           />
         </div>
 
-        <div dir="ltr" className="border rounded-lg overflow-auto max-h-[calc(100vh-170px)] bg-white">
+        <div className="border rounded-lg overflow-auto max-h-[calc(100vh-170px)] bg-white">
           {loading ? (
             <div dir="rtl" className="p-10 text-center text-sm text-muted-foreground">
               جاري تحميل المحفظة...
