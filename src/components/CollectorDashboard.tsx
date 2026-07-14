@@ -353,14 +353,14 @@ export function CollectorDashboard({
           <button
             type="button"
             onClick={() => onSelectAction("rf")}
-            className="rounded-[14px] px-3 py-3 flex items-center justify-between w-full cursor-pointer select-none text-[#133E35] font-sans text-right bg-[#eeece7] hover:bg-[#e6e3dc] active:scale-[0.99] transition-all"
+            className="rounded-[14px] px-3 py-3 flex items-center gap-3 w-full cursor-pointer select-none text-[#133E35] font-sans bg-[#eeece7] hover:bg-[#e6e3dc] active:scale-[0.99] transition-all"
           >
-            <span className="text-[12px] font-extrabold text-[#133E35] text-right">
+            <div className="size-10 rounded-full bg-white flex items-center justify-center shadow-sm shrink-0">
+              <Wallet className="size-5 text-amber-500" />
+            </div>
+            <span className="text-[12px] font-extrabold text-[#133E35]">
               محفظة عملاء العقار ( RF )
             </span>
-            <div className="size-9 rounded-full bg-white flex items-center justify-center shadow-sm">
-              <Wallet className="size-4.5 text-amber-500" />
-            </div>
           </button>
         </div>
       )}
