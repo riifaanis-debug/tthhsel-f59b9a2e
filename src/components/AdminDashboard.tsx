@@ -202,6 +202,12 @@ function HomeGrid({ onSelect }: { onSelect: (t: Tab) => void }) {
       desc: "عرض واسترجاع النسخ الاحتياطية للمحافظ (للإدارة فقط)",
       icon: Archive,
     },
+    {
+      id: "rf-wallet",
+      title: "إضافة محفظة عملاء العقار (RF)",
+      desc: "رفع ملف Excel لمحفظة عملاء العقار (RF)",
+      icon: Building2,
+    },
   ];
 
   const clearCache = async () => {
