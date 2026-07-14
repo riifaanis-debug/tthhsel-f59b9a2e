@@ -215,6 +215,87 @@ export type Database = {
         }
         Relationships: []
       }
+      rf_customers: {
+        Row: {
+          account_number: string | null
+          action: string | null
+          agent_employee_id: string | null
+          agent_name: string | null
+          amount: number | null
+          case_number: string | null
+          created_at: string
+          customer_name: string | null
+          eviction_action: string | null
+          eviction_agency: string | null
+          execution_action: string | null
+          id: string
+          imported_at: string
+          imported_by: string | null
+          national_id: string | null
+          note: string | null
+          payment: number | null
+          product: string | null
+          product_type: string | null
+          property_city: string | null
+          property_kind: string | null
+          supervisor_employee_id: string | null
+          supervisor_name: string | null
+          updated_at: string
+        }
+        Insert: {
+          account_number?: string | null
+          action?: string | null
+          agent_employee_id?: string | null
+          agent_name?: string | null
+          amount?: number | null
+          case_number?: string | null
+          created_at?: string
+          customer_name?: string | null
+          eviction_action?: string | null
+          eviction_agency?: string | null
+          execution_action?: string | null
+          id?: string
+          imported_at?: string
+          imported_by?: string | null
+          national_id?: string | null
+          note?: string | null
+          payment?: number | null
+          product?: string | null
+          product_type?: string | null
+          property_city?: string | null
+          property_kind?: string | null
+          supervisor_employee_id?: string | null
+          supervisor_name?: string | null
+          updated_at?: string
+        }
+        Update: {
+          account_number?: string | null
+          action?: string | null
+          agent_employee_id?: string | null
+          agent_name?: string | null
+          amount?: number | null
+          case_number?: string | null
+          created_at?: string
+          customer_name?: string | null
+          eviction_action?: string | null
+          eviction_agency?: string | null
+          execution_action?: string | null
+          id?: string
+          imported_at?: string
+          imported_by?: string | null
+          national_id?: string | null
+          note?: string | null
+          payment?: number | null
+          product?: string | null
+          product_type?: string | null
+          property_city?: string | null
+          property_kind?: string | null
+          supervisor_employee_id?: string | null
+          supervisor_name?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       wallet_backups: {
         Row: {
           account_count: number

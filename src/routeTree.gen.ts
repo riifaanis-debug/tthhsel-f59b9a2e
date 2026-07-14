@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as WhatsappTemplatesRouteImport } from './routes/whatsapp-templates'
 import { Route as WalletViewRouteImport } from './routes/wallet-view'
 import { Route as ThirdPartyRouteImport } from './routes/third-party'
+import { Route as RfWalletRouteImport } from './routes/rf-wallet'
 import { Route as MailRouteImport } from './routes/mail'
 import { Route as LookupRouteImport } from './routes/lookup'
 import { Route as DiscountCardRouteImport } from './routes/discount-card'
@@ -32,6 +33,11 @@ const WalletViewRoute = WalletViewRouteImport.update({
 const ThirdPartyRoute = ThirdPartyRouteImport.update({
   id: '/third-party',
   path: '/third-party',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RfWalletRoute = RfWalletRouteImport.update({
+  id: '/rf-wallet',
+  path: '/rf-wallet',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MailRoute = MailRouteImport.update({
@@ -72,6 +78,7 @@ export interface FileRoutesByFullPath {
   '/discount-card': typeof DiscountCardRoute
   '/lookup': typeof LookupRoute
   '/mail': typeof MailRoute
+  '/rf-wallet': typeof RfWalletRoute
   '/third-party': typeof ThirdPartyRoute
   '/wallet-view': typeof WalletViewRoute
   '/whatsapp-templates': typeof WhatsappTemplatesRoute
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/discount-card': typeof DiscountCardRoute
   '/lookup': typeof LookupRoute
   '/mail': typeof MailRoute
+  '/rf-wallet': typeof RfWalletRoute
   '/third-party': typeof ThirdPartyRoute
   '/wallet-view': typeof WalletViewRoute
   '/whatsapp-templates': typeof WhatsappTemplatesRoute
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/discount-card': typeof DiscountCardRoute
   '/lookup': typeof LookupRoute
   '/mail': typeof MailRoute
+  '/rf-wallet': typeof RfWalletRoute
   '/third-party': typeof ThirdPartyRoute
   '/wallet-view': typeof WalletViewRoute
   '/whatsapp-templates': typeof WhatsappTemplatesRoute
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/discount-card'
     | '/lookup'
     | '/mail'
+    | '/rf-wallet'
     | '/third-party'
     | '/wallet-view'
     | '/whatsapp-templates'
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | '/discount-card'
     | '/lookup'
     | '/mail'
+    | '/rf-wallet'
     | '/third-party'
     | '/wallet-view'
     | '/whatsapp-templates'
@@ -130,6 +141,7 @@ export interface FileRouteTypes {
     | '/discount-card'
     | '/lookup'
     | '/mail'
+    | '/rf-wallet'
     | '/third-party'
     | '/wallet-view'
     | '/whatsapp-templates'
@@ -142,6 +154,7 @@ export interface RootRouteChildren {
   DiscountCardRoute: typeof DiscountCardRoute
   LookupRoute: typeof LookupRoute
   MailRoute: typeof MailRoute
+  RfWalletRoute: typeof RfWalletRoute
   ThirdPartyRoute: typeof ThirdPartyRoute
   WalletViewRoute: typeof WalletViewRoute
   WhatsappTemplatesRoute: typeof WhatsappTemplatesRoute
@@ -168,6 +181,13 @@ declare module '@tanstack/react-router' {
       path: '/third-party'
       fullPath: '/third-party'
       preLoaderRoute: typeof ThirdPartyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rf-wallet': {
+      id: '/rf-wallet'
+      path: '/rf-wallet'
+      fullPath: '/rf-wallet'
+      preLoaderRoute: typeof RfWalletRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mail': {
@@ -222,6 +242,7 @@ const rootRouteChildren: RootRouteChildren = {
   DiscountCardRoute: DiscountCardRoute,
   LookupRoute: LookupRoute,
   MailRoute: MailRoute,
+  RfWalletRoute: RfWalletRoute,
   ThirdPartyRoute: ThirdPartyRoute,
   WalletViewRoute: WalletViewRoute,
   WhatsappTemplatesRoute: WhatsappTemplatesRoute,

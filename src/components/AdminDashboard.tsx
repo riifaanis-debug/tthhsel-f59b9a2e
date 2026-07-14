@@ -46,7 +46,8 @@ import {
   restoreWalletBackup,
   deleteWalletBackup,
 } from "@/lib/wallet-backups.functions";
-import { Archive, RotateCcw } from "lucide-react";
+import { Archive, RotateCcw, Building2 } from "lucide-react";
+import { replaceRfCustomers, clearRfCustomers, getRfCustomers } from "@/lib/rf-wallet.functions";
 
 type Collector = { supervisor: string; collector: string; employeeId: string };
 const BASE_COLLECTORS = collectors as Collector[];
@@ -75,7 +76,7 @@ type ThirdPartyReq = {
   body: string;
 };
 
-type Tab = "home" | "wallet" | "requests-file" | "changes" | "members" | "requests" | "collectors" | "permissions" | "backups";
+type Tab = "home" | "wallet" | "requests-file" | "changes" | "members" | "requests" | "collectors" | "permissions" | "backups" | "rf-wallet";
 
 export default function AdminDashboard() {
   const [tab, setTab] = useState<Tab>("home");
@@ -106,6 +107,7 @@ export default function AdminDashboard() {
               {tab === "collectors" && "بيانات المحصلين"}
               {tab === "permissions" && "صلاحيات المحصلين"}
               {tab === "backups" && "النسخ الاحتياطية للمحافظ"}
+              {tab === "rf-wallet" && "إضافة محفظة عملاء العقار (RF)"}
             </p>
           </div>
           <Button
@@ -133,6 +135,7 @@ export default function AdminDashboard() {
         {tab === "collectors" && <CollectorsDataPanel />}
         {tab === "permissions" && <PermissionsPanel />}
         {tab === "backups" && <BackupsPanel />}
+        {tab === "rf-wallet" && <RfWalletUploadPanel />}
       </main>
     </div>
   );
@@ -199,6 +202,12 @@ function HomeGrid({ onSelect }: { onSelect: (t: Tab) => void }) {
       title: "النسخ الاحتياطية للمحافظ",
       desc: "عرض واسترجاع النسخ الاحتياطية للمحافظ (للإدارة فقط)",
       icon: Archive,
+    },
+    {
+      id: "rf-wallet",
+      title: "إضافة محفظة عملاء العقار (RF)",
+      desc: "رفع ملف Excel لمحفظة عملاء العقار (RF)",
+      icon: Building2,
     },
   ];
 
@@ -1368,5 +1377,224 @@ function BackupsPanel() {
         </DialogContent>
       </Dialog>
     </div>
+  );
+}
+
+function RfWalletUploadPanel() {
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [busy, setBusy] = useState(false);
+  const [preview, setPreview] = useState<{
+    fileName: string;
+    rows: any[];
+  } | null>(null);
+  const [existingCount, setExistingCount] = useState<number | null>(null);
+  const replaceRf = useServerFn(replaceRfCustomers);
+  const clearRf = useServerFn(clearRfCustomers);
+  const loadRf = useServerFn(getRfCustomers);
+
+  const refreshCount = useCallback(async () => {
+    try {
+      const sessionRaw = localStorage.getItem("wallet:session");
+      const employeeId = sessionRaw ? JSON.parse(sessionRaw)?.employeeId : "";
+      const rows = await loadRf({ data: { employeeId, role: "admin" } });
+      setExistingCount((rows as any[]).length);
+    } catch {
+      setExistingCount(null);
+    }
+  }, [loadRf]);
+
+  useEffect(() => {
+    void refreshCount();
+  }, [refreshCount]);
+
+  const HEADER_MAP: Record<string, string> = {
+    "رقم الحساب": "account_number",
+    "مبلغ المديونية": "amount",
+    "Note": "note",
+    "note": "note",
+    "NOTE": "note",
+    "الاكشن": "action",
+    "الرقم الوظيفي للمحصل": "agent_employee_id",
+    "اسم المحصل": "agent_name",
+    "الرقم الوظيفي للمشرف": "supervisor_employee_id",
+    "اسم المشرف": "supervisor_name",
+    "المنتج": "product",
+    "اسم العميل": "customer_name",
+    "رقم الهوية": "national_id",
+    "نوع المنتج": "product_type",
+    "وكالة تنفيذ اخلاء العقار": "eviction_agency",
+    "وكالة تنفيذ  اخلاء العقار": "eviction_agency",
+    "أكشن الإخلاء": "eviction_action",
+    "مدينة العقار": "property_city",
+    "شقة - فيلا - أرض": "property_kind",
+    "أكشن تنفيذ": "execution_action",
+    "أكشن تنفيذ ": "execution_action",
+    "رقم القضية": "case_number",
+    "رقم القضية ": "case_number",
+    "السداد": "payment",
+  };
+
+  const toStr = (v: any) =>
+    v == null || v === "" ? null : typeof v === "number" ? String(Math.trunc(v)) : String(v).trim();
+  const toNum = (v: any) => {
+    if (v == null || v === "") return null;
+    const n = Number(String(v).replace(/,/g, ""));
+    return Number.isFinite(n) ? n : null;
+  };
+
+  const parseFile = async (file: File) => {
+    setBusy(true);
+    try {
+      const buf = await file.arrayBuffer();
+      const wb = XLSX.read(buf, { type: "array" });
+      const sheet = wb.Sheets[wb.SheetNames[0]];
+      const raw = XLSX.utils.sheet_to_json<any>(sheet, { defval: null });
+      if (raw.length === 0) {
+        toast.error("الملف فارغ");
+        return;
+      }
+      const sessionRaw = localStorage.getItem("wallet:session");
+      const employeeId = sessionRaw ? JSON.parse(sessionRaw)?.employeeId || null : null;
+      const rows = raw.map((r) => {
+        const out: any = { imported_by: employeeId };
+        for (const [k, v] of Object.entries(r)) {
+          const key = HEADER_MAP[String(k).trim()];
+          if (!key) continue;
+          if (key === "amount" || key === "payment") out[key] = toNum(v);
+          else out[key] = toStr(v);
+        }
+        return out;
+      });
+      setPreview({ fileName: file.name, rows });
+      toast.success(`تم تحليل ${rows.length} صف. راجع الملخص ثم اعتمد.`);
+    } catch (e: any) {
+      toast.error("تعذر قراءة الملف: " + (e?.message || ""));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleConfirm = async () => {
+    if (!preview) return;
+    setBusy(true);
+    try {
+      const sessionRaw = localStorage.getItem("wallet:session");
+      const employeeId = sessionRaw ? JSON.parse(sessionRaw)?.employeeId : "";
+      await replaceRf({ data: { employeeId, rows: preview.rows as any } });
+      toast.success(`تم رفع ${preview.rows.length} حساب لمحفظة العقار`);
+      setPreview(null);
+      await refreshCount();
+    } catch (e: any) {
+      toast.error("فشل الحفظ: " + (e?.message || ""));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleClear = async () => {
+    if (!confirm("سيتم مسح جميع بيانات محفظة العقار الحالية. هل ترغب بالمتابعة؟")) return;
+    setBusy(true);
+    try {
+      const sessionRaw = localStorage.getItem("wallet:session");
+      const employeeId = sessionRaw ? JSON.parse(sessionRaw)?.employeeId : "";
+      await clearRf({ data: { employeeId } });
+      toast.success("تم تصفير محفظة العقار");
+      await refreshCount();
+    } catch (e: any) {
+      toast.error("تعذر التصفير: " + (e?.message || ""));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const totalAmount = preview
+    ? preview.rows.reduce((s, r) => s + (Number(r.amount) || 0), 0)
+    : 0;
+
+  return (
+    <Card className="p-5 space-y-4">
+      <div className="text-sm">
+        رفع ملف Excel لمحفظة عملاء العقار (RF). سيستبدل محفظة العقار الحالية بالكامل.
+      </div>
+
+      {existingCount != null && !preview && (
+        <div className="text-xs text-muted-foreground rounded-md border p-3">
+          عدد الحسابات الحالية في محفظة العقار:{" "}
+          <span className="font-medium text-foreground tabular-nums">{existingCount}</span>
+        </div>
+      )}
+
+      <input
+        ref={fileRef}
+        type="file"
+        accept=".xlsx,.xls"
+        className="hidden"
+        onChange={(e) => {
+          const f = e.target.files?.[0];
+          if (f) void parseFile(f);
+          e.target.value = "";
+        }}
+      />
+
+      {!preview && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <Button onClick={() => fileRef.current?.click()} disabled={busy} className="h-11">
+            <Upload className="size-4 ml-2" />
+            {busy ? "جاري..." : "اختيار ملف Excel"}
+          </Button>
+          <Button
+            variant="outline"
+            onClick={handleClear}
+            disabled={busy || !existingCount}
+            className="h-11"
+          >
+            <Eraser className="size-4 ml-2" />
+            تصفير محفظة العقار
+          </Button>
+        </div>
+      )}
+
+      {preview && (
+        <div className="space-y-3">
+          <div className="text-sm font-semibold">ملخص الملف — {preview.fileName}</div>
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            <StatBox label="عدد الحسابات" value={preview.rows.length.toLocaleString("en-US")} />
+            <StatBox label="إجمالي المديونية" value={formatCurrency(totalAmount)} />
+          </div>
+          <div className="rounded-md border max-h-56 overflow-auto">
+            <table className="w-full text-[11px]">
+              <thead className="bg-muted sticky top-0">
+                <tr>
+                  <th className="p-1 text-right">العميل</th>
+                  <th className="p-1 text-right">الهوية</th>
+                  <th className="p-1 text-right">المنتج</th>
+                  <th className="p-1 text-right">المبلغ</th>
+                  <th className="p-1 text-right">المحصل</th>
+                </tr>
+              </thead>
+              <tbody>
+                {preview.rows.slice(0, 20).map((r: any, i) => (
+                  <tr key={i} className="border-t">
+                    <td className="p-1 truncate max-w-[120px]">{r.customer_name || "—"}</td>
+                    <td className="p-1 tabular-nums">{r.national_id || "—"}</td>
+                    <td className="p-1">{r.product_type || r.product || "—"}</td>
+                    <td className="p-1 tabular-nums">{formatCurrency(r.amount)}</td>
+                    <td className="p-1">{r.agent_name || r.agent_employee_id || "—"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <Button variant="outline" onClick={() => setPreview(null)} disabled={busy}>
+              إلغاء
+            </Button>
+            <Button onClick={handleConfirm} disabled={busy}>
+              {busy ? "جاري الحفظ…" : "اعتماد ورفع الملف"}
+            </Button>
+          </div>
+        </div>
+      )}
+    </Card>
   );
 }
