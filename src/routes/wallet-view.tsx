@@ -681,7 +681,19 @@ function WalletViewPage() {
 
                         const display = displayValue(row, c.key, st, c.type);
 
-                        if (c.key === "رقم الحساب" && view === "my-wallet") {
+                        const clickableAccountViews: WalletViewFilter[] = [
+                          "my-wallet",
+                          "promises",
+                          "exemptions",
+                          "reschedules",
+                          "salary",
+                          "deceased",
+                          "sibel",
+                        ];
+                        if (
+                          c.key === "رقم الحساب" &&
+                          clickableAccountViews.includes(view as WalletViewFilter)
+                        ) {
                           return (
                             <TableCell key={c.key} dir="rtl" className={baseCls}>
                               <button
