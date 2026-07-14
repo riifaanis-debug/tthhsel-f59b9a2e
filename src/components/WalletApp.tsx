@@ -285,7 +285,9 @@ export default function WalletApp() {
   const hasRequest = (c: Customer) =>
     isFilled(c["رقم طلب سيبل"]) ||
     isFilled(c["رقم طلب سبيل"]) ||
-    isFilled((c as any)["رقم الطلب في نظام سيبل"]);
+    isFilled((c as any)["رقم الطلب في نظام سيبل"]) ||
+    isFilled((c as any)["نوع الطلب"]) ||
+    isFilled((c as any)["طلب الطلب"]);
 
   const filtered = useMemo(() => {
     const term = q.trim();
