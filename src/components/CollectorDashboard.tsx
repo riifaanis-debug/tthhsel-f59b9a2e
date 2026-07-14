@@ -62,6 +62,7 @@ export function CollectorDashboard({
   mailUnread,
   badges,
   groupEnabled = false,
+  employeeId,
   onSelectAction,
   onCollectedClick,
 }: {
@@ -79,9 +80,11 @@ export function CollectorDashboard({
   mailUnread: number;
   badges: { promises: number; exemptions: number; reschedules: number };
   groupEnabled?: boolean;
+  employeeId?: string;
   onSelectAction: (key: QuickKey) => void;
   onCollectedClick?: () => void;
 }) {
+  const showRfCard = !!employeeId && RF_ALLOWED_EMPLOYEE_IDS.has(String(employeeId));
   const now = useNow();
   const eom = endOfMonth(now);
   const diff = Math.max(0, eom.getTime() - now.getTime());
