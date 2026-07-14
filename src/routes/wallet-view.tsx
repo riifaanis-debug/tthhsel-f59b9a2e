@@ -320,7 +320,10 @@ function WalletViewPage() {
         case "sibel":
           return (
             isFilled(st?.edits?.["رقم طلب سبيل"] ?? rawCellValue(row, "رقم طلب سبيل")) ||
-            isFilled(rawCellValue(row, "رقم طلب سيبل"))
+            isFilled(rawCellValue(row, "رقم طلب سيبل")) ||
+            isFilled(rawCellValue(row, "رقم الطلب في نظام سيبل")) ||
+            isFilled(st?.edits?.["نوع الطلب"] ?? rawCellValue(row, "نوع الطلب")) ||
+            isFilled(rawCellValue(row, "طلب الطلب"))
           );
 
         case "promises":
