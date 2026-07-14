@@ -254,26 +254,8 @@ export function CollectorDashboard({
           </div>
         </button>
 
-        {/* RF Real Estate — exclusive card */}
-        {showRfCard && (
-          <button
-            type="button"
-            onClick={() => onSelectAction("rf")}
-            className="rounded-[14px] px-3 py-2.5 flex items-center justify-between w-full cursor-pointer select-none text-[#133E35] font-sans text-right bg-[#dcf5e5]/70 hover:bg-[#ccefd8]/80 active:scale-95 transition-all shadow-sm border border-[#c7ecd3]/60"
-          >
-            <div className="flex items-center gap-2">
-              <Briefcase className="size-3.5 text-[#059669]" />
-              <span className="text-[10.5px] font-bold text-[#133E35] text-right">
-                محفظة عملاء العقار ( RF )
-              </span>
-            </div>
-            <div className="flex items-center gap-1.5 text-[10.5px] text-[#234E45] font-bold tabular-nums">
-              <MousePointerClick className="size-3.5 text-[#3b82f6]" />
-              فتح
-            </div>
-          </button>
-        )}
       </div>
+
 
 
       {/* ============ Card 3: Actions ============ */}
