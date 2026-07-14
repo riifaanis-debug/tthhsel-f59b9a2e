@@ -254,26 +254,8 @@ export function CollectorDashboard({
           </div>
         </button>
 
-        {/* RF Real Estate — exclusive card */}
-        {showRfCard && (
-          <button
-            type="button"
-            onClick={() => onSelectAction("rf")}
-            className="rounded-[14px] px-3 py-2.5 flex items-center justify-between w-full cursor-pointer select-none text-[#133E35] font-sans text-right bg-[#dcf5e5]/70 hover:bg-[#ccefd8]/80 active:scale-95 transition-all shadow-sm border border-[#c7ecd3]/60"
-          >
-            <div className="flex items-center gap-2">
-              <Briefcase className="size-3.5 text-[#059669]" />
-              <span className="text-[10.5px] font-bold text-[#133E35] text-right">
-                محفظة عملاء العقار ( RF )
-              </span>
-            </div>
-            <div className="flex items-center gap-1.5 text-[10.5px] text-[#234E45] font-bold tabular-nums">
-              <MousePointerClick className="size-3.5 text-[#3b82f6]" />
-              فتح
-            </div>
-          </button>
-        )}
       </div>
+
 
 
       {/* ============ Card 3: Actions ============ */}
@@ -364,7 +346,26 @@ export function CollectorDashboard({
           </button>
         </div>
       </div>
+
+      {/* ============ Card 4: RF Real Estate — standalone ============ */}
+      {showRfCard && (
+        <div className={cardCls}>
+          <button
+            type="button"
+            onClick={() => onSelectAction("rf")}
+            className="rounded-[14px] px-3 py-3 flex items-center justify-between w-full cursor-pointer select-none text-[#133E35] font-sans text-right bg-[#eeece7] hover:bg-[#e6e3dc] active:scale-[0.99] transition-all"
+          >
+            <div className="size-9 rounded-full bg-white flex items-center justify-center shadow-sm">
+              <Wallet className="size-4.5 text-amber-500" />
+            </div>
+            <span className="text-[12px] font-extrabold text-[#133E35] text-right">
+              محفظة عملاء العقار ( RF )
+            </span>
+          </button>
+        </div>
+      )}
     </div>
+
   );
 }
 
