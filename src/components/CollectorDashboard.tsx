@@ -346,7 +346,26 @@ export function CollectorDashboard({
           </button>
         </div>
       </div>
+
+      {/* ============ Card 4: RF Real Estate — standalone ============ */}
+      {showRfCard && (
+        <div className={cardCls}>
+          <button
+            type="button"
+            onClick={() => onSelectAction("rf")}
+            className="rounded-[14px] px-3 py-3 flex items-center justify-between w-full cursor-pointer select-none text-[#133E35] font-sans text-right bg-[#eeece7] hover:bg-[#e6e3dc] active:scale-[0.99] transition-all"
+          >
+            <div className="size-9 rounded-full bg-white flex items-center justify-center shadow-sm">
+              <Wallet className="size-4.5 text-amber-500" />
+            </div>
+            <span className="text-[12px] font-extrabold text-[#133E35] text-right">
+              محفظة عملاء العقار ( RF )
+            </span>
+          </button>
+        </div>
+      )}
     </div>
+
   );
 }
 
