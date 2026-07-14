@@ -46,7 +46,8 @@ import {
   restoreWalletBackup,
   deleteWalletBackup,
 } from "@/lib/wallet-backups.functions";
-import { Archive, RotateCcw } from "lucide-react";
+import { Archive, RotateCcw, Building2 } from "lucide-react";
+import { replaceRfCustomers, clearRfCustomers, getRfCustomers } from "@/lib/rf-wallet.functions";
 
 type Collector = { supervisor: string; collector: string; employeeId: string };
 const BASE_COLLECTORS = collectors as Collector[];
