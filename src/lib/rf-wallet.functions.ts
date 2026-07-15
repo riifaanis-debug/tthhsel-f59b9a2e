@@ -15,6 +15,7 @@ const RfRowSchema = z.object({
   product: z.string().nullable().optional(),
   customer_name: z.string().nullable().optional(),
   national_id: z.string().nullable().optional(),
+  phone: z.string().nullable().optional(),
   product_type: z.string().nullable().optional(),
   eviction_agency: z.string().nullable().optional(),
   eviction_action: z.string().nullable().optional(),
@@ -23,6 +24,8 @@ const RfRowSchema = z.object({
   execution_action: z.string().nullable().optional(),
   case_number: z.string().nullable().optional(),
   payment: z.number().nullable().optional(),
+  request_number: z.string().nullable().optional(),
+  request_type: z.string().nullable().optional(),
   imported_by: z.string().nullable().optional(),
 });
 
