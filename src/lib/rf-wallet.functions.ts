@@ -80,3 +80,28 @@ export const clearRfCustomers = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+const UpdateInput = z.object({
+  id: z.string(),
+  patch: z.object({
+    action: z.string().nullable().optional(),
+    phone: z.string().nullable().optional(),
+    payment: z.number().nullable().optional(),
+    request_number: z.string().nullable().optional(),
+    request_type: z.string().nullable().optional(),
+    case_number: z.string().nullable().optional(),
+    note: z.string().nullable().optional(),
+  }),
+});
+
+export const updateRfCustomer = createServerFn({ method: "POST" })
+  .inputValidator((input) => UpdateInput.parse(input))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin
+      .from("rf_customers" as any)
+      .update(data.patch as any)
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
