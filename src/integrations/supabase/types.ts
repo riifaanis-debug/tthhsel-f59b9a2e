@@ -234,10 +234,13 @@ export type Database = {
           national_id: string | null
           note: string | null
           payment: number | null
+          phone: string | null
           product: string | null
           product_type: string | null
           property_city: string | null
           property_kind: string | null
+          request_number: string | null
+          request_type: string | null
           supervisor_employee_id: string | null
           supervisor_name: string | null
           updated_at: string
@@ -260,10 +263,13 @@ export type Database = {
           national_id?: string | null
           note?: string | null
           payment?: number | null
+          phone?: string | null
           product?: string | null
           product_type?: string | null
           property_city?: string | null
           property_kind?: string | null
+          request_number?: string | null
+          request_type?: string | null
           supervisor_employee_id?: string | null
           supervisor_name?: string | null
           updated_at?: string
@@ -286,10 +292,13 @@ export type Database = {
           national_id?: string | null
           note?: string | null
           payment?: number | null
+          phone?: string | null
           product?: string | null
           product_type?: string | null
           property_city?: string | null
           property_kind?: string | null
+          request_number?: string | null
+          request_type?: string | null
           supervisor_employee_id?: string | null
           supervisor_name?: string | null
           updated_at?: string

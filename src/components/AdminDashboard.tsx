@@ -1432,6 +1432,10 @@ function RfWalletUploadPanel() {
     "رقم القضية": "case_number",
     "رقم القضية ": "case_number",
     "السداد": "payment",
+    "رقم الجوال": "phone",
+    "الجوال": "phone",
+    "رقم الطلب": "request_number",
+    "نوع الطلب": "request_type",
   };
 
   const toStr = (v: any) =>

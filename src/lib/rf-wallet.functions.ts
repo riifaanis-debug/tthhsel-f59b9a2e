@@ -15,6 +15,7 @@ const RfRowSchema = z.object({
   product: z.string().nullable().optional(),
   customer_name: z.string().nullable().optional(),
   national_id: z.string().nullable().optional(),
+  phone: z.string().nullable().optional(),
   product_type: z.string().nullable().optional(),
   eviction_agency: z.string().nullable().optional(),
   eviction_action: z.string().nullable().optional(),
@@ -23,6 +24,8 @@ const RfRowSchema = z.object({
   execution_action: z.string().nullable().optional(),
   case_number: z.string().nullable().optional(),
   payment: z.number().nullable().optional(),
+  request_number: z.string().nullable().optional(),
+  request_type: z.string().nullable().optional(),
   imported_by: z.string().nullable().optional(),
 });
 
@@ -74,6 +77,31 @@ export const clearRfCustomers = createServerFn({ method: "POST" })
     if (data.employeeId !== ADMIN_EMPLOYEE_ID) throw new Error("Unauthorized");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin.from("rf_customers" as any).delete().not("id", "is", null);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+const UpdateInput = z.object({
+  id: z.string(),
+  patch: z.object({
+    action: z.string().nullable().optional(),
+    phone: z.string().nullable().optional(),
+    payment: z.number().nullable().optional(),
+    request_number: z.string().nullable().optional(),
+    request_type: z.string().nullable().optional(),
+    case_number: z.string().nullable().optional(),
+    note: z.string().nullable().optional(),
+  }),
+});
+
+export const updateRfCustomer = createServerFn({ method: "POST" })
+  .inputValidator((input) => UpdateInput.parse(input))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin
+      .from("rf_customers" as any)
+      .update(data.patch as any)
+      .eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true };
   });
