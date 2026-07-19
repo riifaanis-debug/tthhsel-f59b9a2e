@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, Search, Wallet, Phone, X } from "lucide-react";
+import { ArrowRight, Search, Wallet, Phone, X, User, CreditCard, Tag, IdCard, Building2, MapPin, Home, Gavel, ClipboardList, FileText, BadgeCheck } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
