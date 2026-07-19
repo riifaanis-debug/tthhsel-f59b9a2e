@@ -1473,6 +1473,8 @@ function CustomerSheet({
                   <DualCalculators
                     debtAmount={Number(c["مبلغ المديونية"] ?? c["المبلغ"]) || 0}
                     freezeDate={defaultDate}
+                    policyRate={settlement?.rate ?? null}
+                    customerKey={c["رقم الحساب"] || ""}
                   />
 
                   {/* ملاحظة أسفل الحاسبات */}
