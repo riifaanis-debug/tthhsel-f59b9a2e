@@ -1,10 +1,7 @@
-export type WaGender = "الأخ" | "الأخت";
-
 export type WaTemplate = {
   id: string;
   name: string;
   collectorName: string;
-  gender: WaGender;
   body: string;
 };
 
@@ -12,41 +9,25 @@ const STORAGE_KEY = "wa:templates";
 const DEFAULT_ID_KEY = "wa:default-template-id";
 
 export const DEFAULT_TEMPLATE_BODY = `*السلام عليكم ورحمة الله*
-
-*{الجنس} : *{اسم العميل}*
-
+*الأخ : *[اسم العميل الأول]*
 تحيه طيبه وبعد🤍
-
-معاك { اسم المحصل}
-
+معاك [اسم المحصل ]
 *من إدارة البنك الأهلي السعودي بجدة*
-
-*الإدارة العامة*
-
-أعتذر على الإزعاج
-
-تواصلي معك بخصوص مبلغ المديونية القائم عليك لدى البنك الأهلي السعودي
-
-إذا حاب تستفيد من الخصم المقدم لك من البنك بموجب خطاب تسويه ، أو مناقشة بدائل أخرى لمعالجة التعثر، ومن ضمنها :
-
+*إدارة التحصيل*
+أعتذر على الإزعاج ، تواصلي معك بخصوص مبلغ المديونية القائم عليك لدى البنك الأهلي السعودي
+إذا حاب تستفيد من الخصم المقدم لك ، بموجب خطاب تسويه ، أو مناقشة بدائل أخرى لمعالجة التعثر ، والتي من ضمنها :
 ✔︎ *إعادة الجدولة*
-
 ✔︎ *شراء المديونية*
-
-✔︎ *تقديم طلب إعفاء من المديونية*
-
-في حال وجود تقرير طبي يوضح العجز وعدم اللياقة الطبية للعمل.
-
+✔︎ *تقديم طلب إعفاء من المديونية* وذلك في حال وجود تقرير طبي يوضح العجز وعدم اللياقة الطبية للعمل.
 ويهدف هذا التواصل إلى دراسة إمكانية معالجة التعثر والوقوف على رغبتكم ، والإستماع إلى مقترحاتكم ، والعمل معكم للوصول إلى حل مناسب لكم أولًا ، وبما ترونه أنتم ملائماً حسب وضعكم المالي وبما يتوافق مع الأنظمة المعمول بها
-
 *وشكراً 🤍*`;
 
 export const DEFAULT_TEMPLATES: WaTemplate[] = [
-  { id: "t1", name: "القالب الأول (الافتراضي الحالي)", collectorName: "", gender: "الأخ", body: DEFAULT_TEMPLATE_BODY },
-  { id: "t2", name: "القالب الثاني", collectorName: "", gender: "الأخ", body: "" },
-  { id: "t3", name: "القالب الثالث", collectorName: "", gender: "الأخ", body: "" },
-  { id: "t4", name: "القالب الرابع", collectorName: "", gender: "الأخ", body: "" },
-  { id: "t5", name: "القالب الخامس", collectorName: "", gender: "الأخ", body: "" },
+  { id: "t1", name: "القالب الأول (الافتراضي الحالي)", collectorName: "", body: DEFAULT_TEMPLATE_BODY },
+  { id: "t2", name: "القالب الثاني", collectorName: "", body: "" },
+  { id: "t3", name: "القالب الثالث", collectorName: "", body: "" },
+  { id: "t4", name: "القالب الرابع", collectorName: "", body: "" },
+  { id: "t5", name: "القالب الخامس", collectorName: "", body: "" },
 ];
 
 export function loadTemplates(): WaTemplate[] {
@@ -62,7 +43,6 @@ export function loadTemplates(): WaTemplate[] {
       return {
         ...d,
         ...s,
-        gender: (s.gender as WaGender) || d.gender,
       } as WaTemplate;
     });
     return merged;
@@ -86,11 +66,10 @@ export function setDefaultTemplateId(id: string) {
   localStorage.setItem(DEFAULT_ID_KEY, id);
 }
 
-export function applyTemplateVars(body: string, vars: { clientName: string; collectorName: string; gender: WaGender }) {
+export function applyTemplateVars(body: string, vars: { clientName: string; collectorName: string }) {
   return body
     .replace(/\{\s*اسم العميل\s*\}/g, vars.clientName || "العميل")
-    .replace(/\{\s*اسم المحصل\s*\}/g, vars.collectorName || "المحصل")
-    .replace(/\{\s*الجنس\s*\}/g, vars.gender || "الأخ");
+    .replace(/\{\s*اسم المحصل\s*\}/g, vars.collectorName || "المحصل");
 }
 
 export function getActiveMessage(clientName: string): string {
@@ -100,6 +79,5 @@ export function getActiveMessage(clientName: string): string {
   return applyTemplateVars(tpl.body, {
     clientName,
     collectorName: tpl.collectorName,
-    gender: tpl.gender,
   });
 }

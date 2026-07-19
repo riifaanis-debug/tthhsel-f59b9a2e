@@ -22,7 +22,6 @@ import {
   setDefaultTemplateId,
   applyTemplateVars,
   type WaTemplate,
-  type WaGender,
 } from "@/lib/wa-templates";
 
 export const Route = createFileRoute("/whatsapp-templates")({
@@ -136,7 +135,7 @@ function TemplateEditor({
         )}
       </div>
 
-      {/* Identifier line: collector name + gender */}
+      {/* Identifier line: collector name */}
       <div className="space-y-1">
         <label className="text-xs font-semibold text-[#133E35]">سطر التعريف</label>
         <div className="flex items-center gap-2 flex-wrap text-xs bg-muted/40 p-2 rounded-md">
@@ -146,18 +145,6 @@ function TemplateEditor({
             placeholder="اسم المحصل"
             className="h-8 flex-1 min-w-[140px] text-xs"
           />
-          <Select
-            value={template.gender}
-            onValueChange={(v) => onChange({ gender: v as WaGender })}
-          >
-            <SelectTrigger className="h-8 w-[110px] text-xs">
-              <SelectValue placeholder="الجنس" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="الأخ">الأخ</SelectItem>
-              <SelectItem value="الأخت">الأخت</SelectItem>
-            </SelectContent>
-          </Select>
         </div>
       </div>
 
@@ -167,13 +154,12 @@ function TemplateEditor({
         <Textarea
           value={template.body}
           onChange={(e) => onChange({ body: e.target.value })}
-          placeholder="اكتب نص الرسالة هنا... المتغيرات: {اسم العميل} {اسم المحصل} {الجنس}"
+          placeholder="اكتب نص الرسالة هنا... المتغيرات: {اسم العميل} {اسم المحصل}"
           className="min-h-[180px] w-full text-xs leading-relaxed"
           dir="rtl"
         />
         <p className="text-[10px] text-muted-foreground">
-          المتغيرات المتاحة: <code>{"{اسم العميل}"}</code> <code>{"{اسم المحصل}"}</code>{" "}
-          <code>{"{الجنس}"}</code>
+          المتغيرات المتاحة: <code>{"{اسم العميل}"}</code> <code>{"{اسم المحصل}"}</code>
         </p>
       </div>
 
@@ -185,7 +171,6 @@ function TemplateEditor({
           message={applyTemplateVars(template.body, {
             clientName: "العميل",
             collectorName: template.collectorName,
-            gender: template.gender,
           })}
         />
       </div>
