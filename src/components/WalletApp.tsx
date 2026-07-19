@@ -2005,7 +2005,7 @@ function YesNoPill({
   const cardOpacity = value === "no" ? "opacity-60" : "";
   return (
     <div className={`rounded-xl border ${t.border} ${cardBg} ${cardOpacity} p-1.5 flex flex-col gap-1.5 transition-all`}>
-      <div dir="rtl" className={`flex items-center justify-start gap-1 text-[10px] font-bold ${t.text}`}>
+      <div dir="rtl" className={`flex items-center justify-center gap-1 text-[10px] font-bold ${t.text}`}>
         <span className="truncate">{label}</span>
         {icon}
       </div>
