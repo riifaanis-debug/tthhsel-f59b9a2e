@@ -1473,6 +1473,8 @@ function CustomerSheet({
                   <DualCalculators
                     debtAmount={Number(c["مبلغ المديونية"] ?? c["المبلغ"]) || 0}
                     freezeDate={defaultDate}
+                    policyRate={settlement?.rate ?? null}
+                    customerKey={c["رقم الحساب"] || ""}
                   />
 
                   {/* ملاحظة أسفل الحاسبات */}
@@ -2003,7 +2005,7 @@ function YesNoPill({
   const cardOpacity = value === "no" ? "opacity-60" : "";
   return (
     <div className={`rounded-xl border ${t.border} ${cardBg} ${cardOpacity} p-1.5 flex flex-col gap-1.5 transition-all`}>
-      <div dir="rtl" className={`flex items-center justify-start gap-1 text-[10px] font-bold ${t.text}`}>
+      <div dir="rtl" className={`flex items-center justify-center gap-1 text-[10px] font-bold ${t.text}`}>
         <span className="truncate">{label}</span>
         {icon}
       </div>
@@ -2032,12 +2034,23 @@ const DISCOUNT_RATES = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 7
 function DualCalculators({
   debtAmount,
   freezeDate,
+  policyRate,
+  customerKey,
 }: {
   debtAmount: number;
   freezeDate: string;
+  policyRate: number | null;
+  customerKey: string;
 }) {
-  const [rate, setRate] = useState<number>(25);
+  const initialPct = policyRate != null ? Math.round(policyRate * 100) : 25;
+  const [rate, setRate] = useState<number>(initialPct);
   const [extraApplied, setExtraApplied] = useState<boolean>(false);
+
+  // Reset to policy-derived rate when opening a different customer or when policy rate changes
+  useEffect(() => {
+    setRate(policyRate != null ? Math.round(policyRate * 100) : 25);
+    setExtraApplied(false);
+  }, [customerKey, policyRate]);
 
   const today = new Date();
   const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
@@ -2079,7 +2092,7 @@ function DualCalculators({
             </div>
           </div>
           <div className="space-y-0.5">
-            <div className="text-[9px] text-[#5a6b63] text-right">تاريخ اليوم (ثابت)</div>
+            <div className="text-[9px] text-[#5a6b63] text-right">تاريخ اليوم</div>
             <div className="h-7 rounded-md bg-[#FAFAFA] border border-[#e8e6e1] text-[10px] tabular-nums flex items-center justify-center font-semibold">
               {todayStr}
             </div>
