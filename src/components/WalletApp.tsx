@@ -2092,7 +2092,7 @@ function DualCalculators({
             </div>
           </div>
           <div className="space-y-0.5">
-            <div className="text-[9px] text-[#5a6b63] text-right">تاريخ اليوم (ثابت)</div>
+            <div className="text-[9px] text-[#5a6b63] text-right">تاريخ اليوم</div>
             <div className="h-7 rounded-md bg-[#FAFAFA] border border-[#e8e6e1] text-[10px] tabular-nums flex items-center justify-center font-semibold">
               {todayStr}
             </div>
