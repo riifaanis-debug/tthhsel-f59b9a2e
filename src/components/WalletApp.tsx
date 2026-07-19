@@ -2034,12 +2034,23 @@ const DISCOUNT_RATES = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 7
 function DualCalculators({
   debtAmount,
   freezeDate,
+  policyRate,
+  customerKey,
 }: {
   debtAmount: number;
   freezeDate: string;
+  policyRate: number | null;
+  customerKey: string;
 }) {
-  const [rate, setRate] = useState<number>(25);
+  const initialPct = policyRate != null ? Math.round(policyRate * 100) : 25;
+  const [rate, setRate] = useState<number>(initialPct);
   const [extraApplied, setExtraApplied] = useState<boolean>(false);
+
+  // Reset to policy-derived rate when opening a different customer or when policy rate changes
+  useEffect(() => {
+    setRate(policyRate != null ? Math.round(policyRate * 100) : 25);
+    setExtraApplied(false);
+  }, [customerKey, policyRate]);
 
   const today = new Date();
   const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
