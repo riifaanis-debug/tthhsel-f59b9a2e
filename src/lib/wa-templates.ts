@@ -67,10 +67,19 @@ export function setDefaultTemplateId(id: string) {
 }
 
 export function applyTemplateVars(body: string, vars: { clientName: string; collectorName: string }) {
+  const fullName = (vars.clientName || "").trim();
+  const firstName = fullName ? fullName.split(/\s+/)[0] : "العميل";
+  const collector = (vars.collectorName || "").trim() || "المحصل";
   return body
-    .replace(/\{\s*اسم العميل\s*\}/g, vars.clientName || "العميل")
-    .replace(/\{\s*اسم المحصل\s*\}/g, vars.collectorName || "المحصل");
+    .replace(/\[\s*اسم العميل الأول\s*\]/g, firstName)
+    .replace(/\[\s*اسم العميل الاول\s*\]/g, firstName)
+    .replace(/\{\s*اسم العميل الأول\s*\}/g, firstName)
+    .replace(/\{\s*اسم العميل الاول\s*\}/g, firstName)
+    .replace(/\{\s*اسم العميل\s*\}/g, fullName || "العميل")
+    .replace(/\[\s*اسم المحصل\s*\]/g, collector)
+    .replace(/\{\s*اسم المحصل\s*\}/g, collector);
 }
+
 
 export function getActiveMessage(clientName: string): string {
   const id = getDefaultTemplateId();
