@@ -130,6 +130,8 @@ function columnWidthClass(key: keyof RfRow): string {
     case "case_number": return "w-[135px] min-w-[135px] max-w-[135px]";
     case "request_number": return "w-[120px] min-w-[120px] max-w-[120px]";
     case "request_type": return "w-[140px] min-w-[140px] max-w-[140px]";
+    case "description": return "w-[220px] min-w-[220px] max-w-[220px]";
+    case "reserved_balance": return "w-[130px] min-w-[130px] max-w-[130px]";
     case "payment": return "w-[120px] min-w-[120px] max-w-[120px]";
     default: return "w-[120px] min-w-[120px] max-w-[120px]";
   }
