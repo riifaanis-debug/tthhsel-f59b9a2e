@@ -61,6 +61,8 @@ type RfRow = {
   payment: number | null;
   request_number: string | null;
   request_type: string | null;
+  reserved_balance: number | null;
+  description: string | null;
 };
 
 const ACTION_OPTIONS: { value: string; color: string }[] = [
