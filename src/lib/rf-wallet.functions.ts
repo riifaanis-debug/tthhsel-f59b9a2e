@@ -95,6 +95,8 @@ const UpdateInput = z.object({
     request_type: z.string().nullable().optional(),
     case_number: z.string().nullable().optional(),
     note: z.string().nullable().optional(),
+    reserved_balance: z.number().nullable().optional(),
+    description: z.string().nullable().optional(),
   }),
 });
 
