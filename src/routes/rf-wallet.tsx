@@ -145,6 +145,7 @@ function cellWrap(key: keyof RfRow): string {
     case "eviction_agency":
     case "eviction_action":
     case "execution_action":
+    case "description":
       return "whitespace-normal break-words leading-relaxed";
     default:
       return "whitespace-nowrap";
