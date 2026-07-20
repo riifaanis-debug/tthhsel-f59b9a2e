@@ -1,0 +1,1 @@
+ALTER TABLE public.rf_customers ADD COLUMN IF NOT EXISTS reserved_balance numeric; ALTER TABLE public.rf_customers ADD COLUMN IF NOT EXISTS description text;
