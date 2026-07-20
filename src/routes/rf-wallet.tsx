@@ -102,8 +102,10 @@ const COLUMNS: { key: keyof RfRow; label: string; money?: boolean; number?: bool
   { key: "property_kind", label: "شقة - فيلا - أرض" },
   { key: "execution_action", label: "أكشن تنفيذ" },
   { key: "case_number", label: "رقم القضية", number: true },
-  { key: "request_number", label: "رقم الطلب" },
+  { key: "request_number", label: "رقم طلب سيبل" },
   { key: "request_type", label: "نوع الطلب" },
+  { key: "description", label: "الوصف" },
+  { key: "reserved_balance", label: "أرصدة محجوزة", money: true },
   { key: "payment", label: "السداد", money: true },
 ];
 
