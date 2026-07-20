@@ -225,6 +225,7 @@ export type Database = {
           case_number: string | null
           created_at: string
           customer_name: string | null
+          description: string | null
           eviction_action: string | null
           eviction_agency: string | null
           execution_action: string | null
@@ -241,6 +242,7 @@ export type Database = {
           property_kind: string | null
           request_number: string | null
           request_type: string | null
+          reserved_balance: number | null
           supervisor_employee_id: string | null
           supervisor_name: string | null
           updated_at: string
@@ -254,6 +256,7 @@ export type Database = {
           case_number?: string | null
           created_at?: string
           customer_name?: string | null
+          description?: string | null
           eviction_action?: string | null
           eviction_agency?: string | null
           execution_action?: string | null
@@ -270,6 +273,7 @@ export type Database = {
           property_kind?: string | null
           request_number?: string | null
           request_type?: string | null
+          reserved_balance?: number | null
           supervisor_employee_id?: string | null
           supervisor_name?: string | null
           updated_at?: string
@@ -283,6 +287,7 @@ export type Database = {
           case_number?: string | null
           created_at?: string
           customer_name?: string | null
+          description?: string | null
           eviction_action?: string | null
           eviction_agency?: string | null
           execution_action?: string | null
@@ -299,6 +304,7 @@ export type Database = {
           property_kind?: string | null
           request_number?: string | null
           request_type?: string | null
+          reserved_balance?: number | null
           supervisor_employee_id?: string | null
           supervisor_name?: string | null
           updated_at?: string

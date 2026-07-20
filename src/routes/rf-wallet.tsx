@@ -61,6 +61,8 @@ type RfRow = {
   payment: number | null;
   request_number: string | null;
   request_type: string | null;
+  reserved_balance: number | null;
+  description: string | null;
 };
 
 const ACTION_OPTIONS: { value: string; color: string }[] = [
@@ -100,8 +102,10 @@ const COLUMNS: { key: keyof RfRow; label: string; money?: boolean; number?: bool
   { key: "property_kind", label: "شقة - فيلا - أرض" },
   { key: "execution_action", label: "أكشن تنفيذ" },
   { key: "case_number", label: "رقم القضية", number: true },
-  { key: "request_number", label: "رقم الطلب" },
+  { key: "request_number", label: "رقم طلب سيبل" },
   { key: "request_type", label: "نوع الطلب" },
+  { key: "description", label: "الوصف" },
+  { key: "reserved_balance", label: "أرصدة محجوزة", money: true },
   { key: "payment", label: "السداد", money: true },
 ];
 
@@ -126,6 +130,8 @@ function columnWidthClass(key: keyof RfRow): string {
     case "case_number": return "w-[135px] min-w-[135px] max-w-[135px]";
     case "request_number": return "w-[120px] min-w-[120px] max-w-[120px]";
     case "request_type": return "w-[140px] min-w-[140px] max-w-[140px]";
+    case "description": return "w-[220px] min-w-[220px] max-w-[220px]";
+    case "reserved_balance": return "w-[130px] min-w-[130px] max-w-[130px]";
     case "payment": return "w-[120px] min-w-[120px] max-w-[120px]";
     default: return "w-[120px] min-w-[120px] max-w-[120px]";
   }
@@ -139,6 +145,7 @@ function cellWrap(key: keyof RfRow): string {
     case "eviction_agency":
     case "eviction_action":
     case "execution_action":
+    case "description":
       return "whitespace-normal break-words leading-relaxed";
     default:
       return "whitespace-nowrap";
