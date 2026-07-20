@@ -9,7 +9,7 @@ const STORAGE_KEY = "wa:templates";
 const DEFAULT_ID_KEY = "wa:default-template-id";
 
 export const DEFAULT_TEMPLATE_BODY = `*السلام عليكم ورحمة الله*
-*الأخ : *[اسم العميل الأول]*
+*الأخ : *[اسم العميل الأول]
 تحيه طيبه وبعد🤍
 معاك [اسم المحصل ]
 *من إدارة البنك الأهلي السعودي بجدة*
