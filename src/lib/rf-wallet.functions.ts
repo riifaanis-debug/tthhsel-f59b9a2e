@@ -26,8 +26,10 @@ const RfRowSchema = z.object({
   payment: z.number().nullable().optional(),
   request_number: z.string().nullable().optional(),
   request_type: z.string().nullable().optional(),
+  reserved_balance: z.number().nullable().optional(),
+  description: z.string().nullable().optional(),
   imported_by: z.string().nullable().optional(),
-});
+
 
 export type RfRow = z.infer<typeof RfRowSchema>;
 
