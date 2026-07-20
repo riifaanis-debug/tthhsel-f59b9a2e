@@ -29,6 +29,8 @@ const RfRowSchema = z.object({
   reserved_balance: z.number().nullable().optional(),
   description: z.string().nullable().optional(),
   imported_by: z.string().nullable().optional(),
+});
+
 
 
 export type RfRow = z.infer<typeof RfRowSchema>;
