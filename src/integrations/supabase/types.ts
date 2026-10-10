@@ -71,6 +71,63 @@ export type Database = {
         }
         Relationships: []
       }
+      customer_documents: {
+        Row: {
+          customer_key: string
+          file_name: string | null
+          id: string
+          is_current: boolean
+          item_id: string
+          mime: string | null
+          request_id: string
+          seen_by_collector: boolean
+          size_bytes: number | null
+          storage_path: string
+          uploaded_at: string
+        }
+        Insert: {
+          customer_key: string
+          file_name?: string | null
+          id?: string
+          is_current?: boolean
+          item_id: string
+          mime?: string | null
+          request_id: string
+          seen_by_collector?: boolean
+          size_bytes?: number | null
+          storage_path: string
+          uploaded_at?: string
+        }
+        Update: {
+          customer_key?: string
+          file_name?: string | null
+          id?: string
+          is_current?: boolean
+          item_id?: string
+          mime?: string | null
+          request_id?: string
+          seen_by_collector?: boolean
+          size_bytes?: number | null
+          storage_path?: string
+          uploaded_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_documents_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "document_request_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_documents_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "document_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       customer_notes: {
         Row: {
           created_at: string
@@ -197,6 +254,160 @@ export type Database = {
           phone?: string | null
           product?: string | null
           raw?: Json | null
+        }
+        Relationships: []
+      }
+      document_activity_logs: {
+        Row: {
+          actor: string | null
+          created_at: string
+          details: Json | null
+          event: string
+          id: string
+          request_id: string | null
+        }
+        Insert: {
+          actor?: string | null
+          created_at?: string
+          details?: Json | null
+          event: string
+          id?: string
+          request_id?: string | null
+        }
+        Update: {
+          actor?: string | null
+          created_at?: string
+          details?: Json | null
+          event?: string
+          id?: string
+          request_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_activity_logs_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "document_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      document_library: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          label: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          label: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          label?: string
+        }
+        Relationships: []
+      }
+      document_request_items: {
+        Row: {
+          id: string
+          is_required: boolean
+          label: string
+          rejection_reason: string | null
+          request_id: string
+          sort_order: number
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          is_required?: boolean
+          label: string
+          rejection_reason?: string | null
+          request_id: string
+          sort_order?: number
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          is_required?: boolean
+          label?: string
+          rejection_reason?: string | null
+          request_id?: string
+          sort_order?: number
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_request_items_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "document_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      document_requests: {
+        Row: {
+          account_number: string | null
+          collector_employee_id: string
+          collector_name: string | null
+          created_at: string
+          customer_key: string
+          customer_name: string | null
+          expires_at: string
+          failed_attempts: number
+          id: string
+          last_activity_at: string
+          locked_until: string | null
+          national_id_hash: string | null
+          ref_no: number
+          status: string
+          token_hash: string
+          upload_status: string
+        }
+        Insert: {
+          account_number?: string | null
+          collector_employee_id: string
+          collector_name?: string | null
+          created_at?: string
+          customer_key: string
+          customer_name?: string | null
+          expires_at: string
+          failed_attempts?: number
+          id?: string
+          last_activity_at?: string
+          locked_until?: string | null
+          national_id_hash?: string | null
+          ref_no?: number
+          status?: string
+          token_hash: string
+          upload_status?: string
+        }
+        Update: {
+          account_number?: string | null
+          collector_employee_id?: string
+          collector_name?: string | null
+          created_at?: string
+          customer_key?: string
+          customer_name?: string | null
+          expires_at?: string
+          failed_attempts?: number
+          id?: string
+          last_activity_at?: string
+          locked_until?: string | null
+          national_id_hash?: string | null
+          ref_no?: number
+          status?: string
+          token_hash?: string
+          upload_status?: string
         }
         Relationships: []
       }
